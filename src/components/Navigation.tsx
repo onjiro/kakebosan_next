@@ -7,7 +7,7 @@ export function Navigation() {
   const pathname = usePathname();
 
   return (
-    <nav className="fixed bottom-0 w-full bg-shadow border-t">
+    <nav className="fixed bottom-0 w-full bg-shadow bg-(--background) border-t">
       <div className="flex justify-around p-4">
         <Link
           href="/transactions"

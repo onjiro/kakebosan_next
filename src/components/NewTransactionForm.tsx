@@ -75,7 +75,7 @@ export default function NewTransactionForm({ onSubmit, items }: Props) {
   };
 
   return (
-    <div className="bg-white p-6 rounded-lg h-full">
+    <div className="p-4 h-full">
       <form
         onSubmit={form.handleSubmit(handleSubmit)}
         className="relative space-y-4 h-full"

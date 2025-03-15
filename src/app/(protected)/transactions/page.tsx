@@ -41,7 +41,10 @@ export default async function TransactionsPage() {
 
       <div className="space-y-4 p-4">
         {transactions.map((transaction) => (
-          <div key={transaction.id} className="bg-white rounded-lg shadow p-4">
+          <div
+            key={transaction.id}
+            className="bg-(--background) rounded-lg shadow p-4"
+          >
             <div className="flex justify-between items-start mb-2">
               <div>
                 <div className="text-sm text-gray-500">

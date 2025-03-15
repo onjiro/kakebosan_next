@@ -26,10 +26,10 @@ export default function NewTransactionFormButton(props: Props) {
       {/* 新規取引登録用モーダルウィンドウ */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-lg p-4 w-full h-full">
+          <div className="bg-(--background) rounded-lg p-4 w-full h-full">
             <button
               onClick={() => setIsModalOpen(false)}
-              className="ml-2 h-10 w-10 rounded-full hover:bg-gray-100 text-gray-500 hover:text-gray-700"
+              className="ml-2 h-10 w-10 rounded-full hover:bg-gray-100/40 text-gray-500 hover:text-gray-700"
             >
               <span className="text-2xl">×</span>
             </button>
