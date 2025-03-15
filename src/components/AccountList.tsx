@@ -3,10 +3,10 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
-import { AccountingItem } from "@/types";
+import { Tables } from "@/types/supabase";
 
 type Props = {
-  items: AccountingItem[];
+  items: Tables<"accounting_items">[];
 };
 
 export function AccountList({ items }: Props) {
@@ -18,7 +18,7 @@ export function AccountList({ items }: Props) {
     try {
       const supabase = await createClient();
       const { error } = await supabase
-        .from("accounts")
+        .from("accounting_items")
         .update({ name: editName })
         .eq("id", accountId);
 
@@ -32,7 +32,7 @@ export function AccountList({ items }: Props) {
     }
   };
 
-  const handleToggleActive = async (item: AccountingItem) => {
+  const handleToggleActive = async (item: Tables<"accounting_items">) => {
     try {
       const supabase = await createClient();
       const { error } = await supabase
@@ -55,7 +55,7 @@ export function AccountList({ items }: Props) {
     }
     acc[item.accounting_type].push(item);
     return acc;
-  }, {} as Record<string, AccountingItem[]>);
+  }, {} as Record<string, Tables<"accounting_items">[]>);
 
   const typeLabels = {
     asset: "資産",

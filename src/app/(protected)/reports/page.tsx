@@ -35,7 +35,7 @@ async function getAccountSummary(startDate: string, endDate: string) {
       }
 
       // 収入・費用の計算ロジック
-      if (entry.item.accounting_type === "income") {
+      if (entry.item.accounting_type === "revenue") {
         acc[itemId].total +=
           entry.side === "debit" ? -entry.amount : entry.amount;
       } else if (entry.item.accounting_type === "expense") {

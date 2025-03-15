@@ -1,7 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
-import { Transaction } from "@/types";
 
-const getTransactions = async (): Promise<Transaction[]> => {
+const getTransactions = async () => {
   const supabase = await createClient();
   const { data, error } = await supabase
     .from("accounting_transactions")

@@ -1,5 +1,4 @@
 import { createClient } from "@/lib/supabase/server";
-import { AccountingEntry } from "@/types";
 
 async function getAccountBalances() {
   const supabase = await createClient();
@@ -17,12 +16,9 @@ async function getAccountBalances() {
   if (error) throw error;
 
   return data.map((account) => {
-    const balance = account.entries.reduce(
-      (sum: number, entry: AccountingEntry) => {
-        return sum + (entry.side === "debit" ? entry.amount : -entry.amount);
-      },
-      0
-    );
+    const balance = account.entries.reduce((sum: number, entry) => {
+      return sum + (entry.side === "debit" ? entry.amount : -entry.amount);
+    }, 0);
     return { ...account, balance };
   });
 }
