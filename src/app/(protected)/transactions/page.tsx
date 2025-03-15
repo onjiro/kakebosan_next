@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
+import NewTransactionFormButton from "@/components/NewTransactionFormButton";
 
 const getTransactions = async () => {
   const supabase = await createClient();
@@ -21,18 +22,22 @@ const getTransactions = async () => {
   return data;
 };
 
+const getItems = async () => {
+  const supabase = await createClient();
+  const { data, error } = await supabase.from("accounting_items").select("*");
+  if (error) throw error;
+  return data;
+};
+
 export default async function TransactionsPage() {
   const transactions = await getTransactions();
+  const items = await getItems();
 
   return (
     <div className="pb-16">
       <h1 className="text-xl font-bold p-4">取引履歴</h1>
 
-      <div className="fixed bottom-16 right-4">
-        <button className="bg-blue-600 text-white rounded-full p-4 shadow-lg">
-          <span className="text-2xl">+</span>
-        </button>
-      </div>
+      <NewTransactionFormButton items={items} />
 
       <div className="space-y-4 p-4">
         {transactions.map((transaction) => (
