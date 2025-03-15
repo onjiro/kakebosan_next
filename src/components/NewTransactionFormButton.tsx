@@ -17,7 +17,7 @@ export default function NewTransactionFormButton(props: Props) {
       <div className="fixed bottom-16 right-4">
         <button
           onClick={() => setIsModalOpen(true)}
-          className="bg-blue-600 text-white rounded-full p-4 shadow-lg hover:bg-blue-700"
+          className="bg-blue-600 text-white rounded-full p-4 w-15 h-15 shadow-lg hover:bg-blue-700"
         >
           <span className="text-2xl">+</span>
         </button>
