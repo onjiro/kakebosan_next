@@ -100,7 +100,7 @@ export default function Home() {
         </div>
       </main>
       <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <p>
+        <p className="text-sm text-gray-600">
           &copy; 2013{" "}
           <a
             href="https://github.com/onjiro"
