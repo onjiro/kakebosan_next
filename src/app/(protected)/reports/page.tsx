@@ -49,14 +49,14 @@ async function getAccountSummary(startDate: string, endDate: string) {
   return Object.values(summary);
 }
 
-export default async function ReportsPage({
-  searchParams,
-}: {
-  searchParams: { start?: string; end?: string };
-}) {
-  const startDate =
-    searchParams.start || new Date().toISOString().split("T")[0];
-  const endDate = searchParams.end || new Date().toISOString().split("T")[0];
+type Props = {
+  searchParams: Promise<{ start?: string; end?: string }>;
+};
+
+export default async function ReportsPage(props: Props) {
+  const { start, end } = await props.searchParams;
+  const startDate = start || new Date().toISOString().split("T")[0];
+  const endDate = end || new Date().toISOString().split("T")[0];
 
   const summary = await getAccountSummary(startDate, endDate);
 
