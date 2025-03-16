@@ -2,6 +2,10 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { FaListAlt } from "@react-icons/all-files/fa/FaListAlt";
+import { FaRegCalendarCheck } from "@react-icons/all-files/fa/FaRegCalendarCheck";
+import { FaCalculator } from "@react-icons/all-files/fa/FaCalculator";
+import { FaCog } from "@react-icons/all-files/fa/FaCog";
 
 export function Navigation() {
   const pathname = usePathname();
@@ -15,7 +19,10 @@ export function Navigation() {
             pathname === "/transactions" ? "text-blue-600" : "text-gray-600"
           }`}
         >
-          <span>取引履歴</span>
+          <span className="flex items-center gap-2">
+            <FaListAlt />
+            取引履歴
+          </span>
         </Link>
         <Link
           href="/inventory"
@@ -23,7 +30,10 @@ export function Navigation() {
             pathname === "/inventory" ? "text-blue-600" : "text-gray-600"
           }`}
         >
-          <span>棚卸</span>
+          <span className="flex items-center gap-2">
+            <FaRegCalendarCheck />
+            棚卸
+          </span>
         </Link>
         <Link
           href="/reports"
@@ -31,7 +41,10 @@ export function Navigation() {
             pathname === "/reports" ? "text-blue-600" : "text-gray-600"
           }`}
         >
-          <span>集計</span>
+          <span className="flex items-center gap-2">
+            <FaCalculator />
+            集計
+          </span>
         </Link>
         <Link
           href="/settings"
@@ -39,7 +52,10 @@ export function Navigation() {
             pathname === "/settings" ? "text-blue-600" : "text-gray-600"
           }`}
         >
-          <span>設定</span>
+          <span className="flex items-center gap-2">
+            <FaCog />
+            設定
+          </span>
         </Link>
       </div>
     </nav>
