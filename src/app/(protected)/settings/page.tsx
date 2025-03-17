@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { AccountForm } from "@/components/AccountForm";
 import { AccountList } from "@/components/AccountList";
+import { LogoutButton } from "@/components/LogoutButton";
 
 async function getItems() {
   const supabase = await createClient();
@@ -22,14 +23,19 @@ export default async function SettingsPage() {
       <h1 className="text-xl font-bold p-4">設定</h1>
 
       <div className="p-4 space-y-6">
-        <div className="bg-white rounded-lg shadow p-4">
+        <div className="bg-(--background) rounded-lg shadow p-4">
           <h2 className="text-lg font-bold mb-4">勘定科目管理</h2>
           <AccountForm />
         </div>
 
-        <div className="bg-white rounded-lg shadow p-4">
+        <div className="bg-(--background) rounded-lg shadow p-4">
           <h2 className="text-lg font-bold mb-4">勘定科目一覧</h2>
           <AccountList items={items} />
+        </div>
+
+        <div className="bg-(--background) rounded-lg shadow p-4">
+          <h2 className="text-lg font-bold mb-4">アカウント</h2>
+          <LogoutButton />
         </div>
       </div>
     </div>

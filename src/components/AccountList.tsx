@@ -76,7 +76,7 @@ export function AccountList({ items }: Props) {
               <div
                 key={item.id}
                 className={`flex items-center justify-between p-2 rounded ${
-                  item.selectable ? "bg-gray-50" : "bg-gray-100"
+                  item.selectable ? "bg-(--background)" : "bg-(--foreground)/5"
                 }`}
               >
                 {editingId === item.id ? (
@@ -97,13 +97,13 @@ export function AccountList({ items }: Props) {
                     <>
                       <button
                         onClick={() => handleEdit(item.id)}
-                        className="text-sm text-blue-600"
+                        className="text-sm text-blue-600 cursor-pointer"
                       >
                         保存
                       </button>
                       <button
                         onClick={() => setEditingId(null)}
-                        className="text-sm text-gray-600"
+                        className="text-sm text-gray-600 cursor-pointer"
                       >
                         キャンセル
                       </button>
@@ -115,13 +115,13 @@ export function AccountList({ items }: Props) {
                           setEditingId(item.id);
                           setEditName(item.name);
                         }}
-                        className="text-sm text-blue-600"
+                        className="text-sm text-blue-600 cursor-pointer"
                       >
                         編集
                       </button>
                       <button
                         onClick={() => handleToggleActive(item)}
-                        className="text-sm text-gray-600"
+                        className="text-sm text-gray-600 cursor-pointer"
                       >
                         {item.selectable ? "無効化" : "有効化"}
                       </button>
