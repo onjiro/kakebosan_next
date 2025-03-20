@@ -3,6 +3,7 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --base-color: #f0f0f0;
 }
 
 @theme inline {
@@ -16,11 +17,12 @@
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
+    --base-color: #2e2e2e;
   }
 }
 
 body {
-  background: var(--background);
+  background: var(--base-color);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
