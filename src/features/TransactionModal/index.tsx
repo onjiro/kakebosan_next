@@ -135,6 +135,7 @@ export default function TransactionModal({
               >
                 <option value="">選択してください</option>
                 {items
+                  .filter((item) => item.selectable)
                   .filter(
                     (item) =>
                       item.accounting_type === "expense" ||
@@ -158,6 +159,7 @@ export default function TransactionModal({
               >
                 <option value="">選択してください</option>
                 {items
+                  .filter((item) => item.selectable)
                   .filter(
                     (item) =>
                       item.accounting_type === "asset" ||
