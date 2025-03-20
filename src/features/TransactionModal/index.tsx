@@ -91,12 +91,15 @@ export default function TransactionModal({
             })}
             className="relative space-y-4 h-full"
           >
-            <h2 className="text-xl font-bold mb-4">
+            <h2 className="text-lg font-bold mb-4">
               {transaction ? "取引内容編集" : "新規取引登録"}
             </h2>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700">
+              <label
+                className="block text-sm font-medium text-gray-700"
+                htmlFor="amount"
+              >
                 金額
               </label>
               <input
@@ -106,12 +109,17 @@ export default function TransactionModal({
                   min: 1,
                 })}
                 type="number"
-                className="mt-1 block w-full text-right rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                className="mt-1 p-4 block w-full text-lg text-right bg-(--base-color) rounded-md border-1 border-gray-300 inset-shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                placeholder="0"
+                autoFocus
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700">
+              <label
+                className="block text-sm font-medium text-gray-700"
+                htmlFor="date"
+              >
                 日付
               </label>
               <input
@@ -121,17 +129,20 @@ export default function TransactionModal({
                     new Date(value).toISOString().split("T")[0],
                 })}
                 type="date"
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                className="mt-1 p-4 block w-full text-lg rounded-md bg-(--base-color) border-1 border-gray-300 inset-shadow-sm focus:border-blue-500 focus:ring-blue-500"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700">
+              <label
+                className="block text-sm font-medium text-gray-700"
+                htmlFor="creditItemId"
+              >
                 支出
               </label>
               <select
                 {...form.register("creditItemId", { required: true })}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                className="mt-1 p-4 block w-full text-lg rounded-md bg-(--base-color) border-1 border-gray-300 inset-shadow-sm focus:border-blue-500 focus:ring-blue-500 appearance-none cursor-pointer"
               >
                 <option value="">選択してください</option>
                 {items
@@ -150,12 +161,15 @@ export default function TransactionModal({
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700">
+              <label
+                className="block text-sm font-medium text-gray-700"
+                htmlFor="debitItemId"
+              >
                 支出元
               </label>
               <select
                 {...form.register("debitItemId", { required: true })}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                className="mt-1 p-4 block w-full text-lg rounded-md bg-(--base-color) border-1 border-gray-300 inset-shadow-sm focus:border-blue-500 focus:ring-blue-500 appearance-none cursor-pointer"
               >
                 <option value="">選択してください</option>
                 {items
@@ -177,7 +191,7 @@ export default function TransactionModal({
             <div className="absolute bottom-8 flex justify-end gap-2 w-full left-0 right-0">
               <button
                 type="submit"
-                className="w-full px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full p-4 text-lg font-bold text-white bg-blue-600 rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
                 disabled={!form.formState.isValid}
               >
                 {transaction ? "更新" : "登録"}
