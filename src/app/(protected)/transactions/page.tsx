@@ -43,7 +43,12 @@ export default async function TransactionsPage() {
     <div className="pb-16">
       <h1 className="text-xl font-bold p-8">取引履歴</h1>
       <NewTransactionFormButton items={items} />
-      <TransactionList initialTransactions={transactions} items={items} />
+      <TransactionList
+        // router.refresh時に強制的に更新をかけるためにkeyを設定
+        key={transactions.map(({ id }) => id.toString()).join("-")}
+        initialTransactions={transactions}
+        items={items}
+      />
     </div>
   );
 }
