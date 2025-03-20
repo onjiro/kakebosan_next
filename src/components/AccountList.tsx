@@ -49,14 +49,7 @@ export function AccountList({ items }: Props) {
     }
   };
 
-  const itemsByType = items.reduce((acc, item) => {
-    if (!acc[item.accounting_type]) {
-      acc[item.accounting_type] = [];
-    }
-    acc[item.accounting_type].push(item);
-    return acc;
-  }, {} as Record<string, Tables<"accounting_items">[]>);
-
+  const itemsByType = Object.groupBy(items, (item) => item.accounting_type);
   const typeLabels = {
     asset: "資産",
     liability: "負債",
