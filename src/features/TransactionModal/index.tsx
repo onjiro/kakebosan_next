@@ -9,6 +9,7 @@ import {
   deleteTransaction,
   updateTransaction,
 } from "./action";
+import { useState } from "react";
 
 type Props =
   | {
@@ -37,6 +38,24 @@ export default function TransactionModal({
   onCancel,
   onDelete,
 }: Props) {
+  // 支出または収入の項目
+  const expenseOrRevenueItems = items
+    .filter((item) => item.selectable)
+    .filter(
+      (item) =>
+        item.accounting_type === "expense" || item.accounting_type === "revenue"
+    );
+
+  // 資産、負債、純資産の項目
+  const assetOrLiabilityOrEquity = items
+    .filter((item) => item.selectable)
+    .filter(
+      (item) =>
+        item.accounting_type === "asset" ||
+        item.accounting_type === "liability" ||
+        item.accounting_type === "equity"
+    );
+
   const form = useForm<FormData>({
     defaultValues: transaction
       ? {
@@ -55,6 +74,16 @@ export default function TransactionModal({
           debitItemId: undefined as unknown as number,
         },
   });
+  // 支出 or 振替
+  const [transactionType, setTransactionType] = useState<
+    "expense" | "transfer"
+  >(
+    assetOrLiabilityOrEquity
+      .map((item) => item.id)
+      .includes(form.getValues("creditItemId"))
+      ? "transfer"
+      : "expense"
+  );
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4">
@@ -95,24 +124,49 @@ export default function TransactionModal({
               {transaction ? "取引内容編集" : "新規取引登録"}
             </h2>
 
-            <div>
-              <label
-                className="block text-sm font-medium text-gray-700"
-                htmlFor="amount"
-              >
-                金額
-              </label>
-              <input
-                {...form.register("amount", {
-                  required: true,
-                  valueAsNumber: true,
-                  min: 1,
-                })}
-                type="number"
-                className="mt-1 p-4 block w-full text-lg text-right bg-(--base-color) rounded-md border-1 border-gray-300 inset-shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                placeholder="0"
-                autoFocus
-              />
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  取引種類
+                </label>
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <select
+                    name="transactionType"
+                    value={transactionType}
+                    onChange={(e) => {
+                      // 取引タイプ変更時は貸方が選択不可能な項目になっているはずなのでリセットしておく
+                      form.resetField("creditItemId");
+                      setTransactionType(
+                        e.target.value as "expense" | "transfer"
+                      );
+                    }}
+                    className="mt-1 w-full p-4 text-lg bg-(--base-color) rounded-md border-1 border-gray-300 inset-shadow-sm appearance-none cursor-pointer"
+                  >
+                    <option value="expense">支出</option>
+                    <option value="transfer">振替</option>
+                  </select>
+                </label>
+              </div>
+
+              <div>
+                <label
+                  className="block text-sm font-medium text-gray-700"
+                  htmlFor="amount"
+                >
+                  金額
+                </label>
+                <input
+                  {...form.register("amount", {
+                    required: true,
+                    valueAsNumber: true,
+                    min: 1,
+                  })}
+                  type="number"
+                  className="mt-1 p-4 block w-full text-lg text-right bg-(--base-color) rounded-md border-1 border-gray-300 inset-shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                  placeholder="0"
+                  autoFocus
+                />
+              </div>
             </div>
 
             <div>
@@ -129,64 +183,95 @@ export default function TransactionModal({
                     new Date(value).toISOString().split("T")[0],
                 })}
                 type="date"
-                className="mt-1 p-4 block w-full text-lg rounded-md bg-(--base-color) border-1 border-gray-300 inset-shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                className="mt-1 p-4 block w-full text-lg rounded-md bg-(--base-color) border-1 border-gray-300 inset-shadow-sm focus:border-blue-500 focus:ring-blue-500 cursor-pointer"
               />
             </div>
 
-            <div>
-              <label
-                className="block text-sm font-medium text-gray-700"
-                htmlFor="creditItemId"
-              >
-                支出
-              </label>
-              <select
-                {...form.register("creditItemId", { required: true })}
-                className="mt-1 p-4 block w-full text-lg rounded-md bg-(--base-color) border-1 border-gray-300 inset-shadow-sm focus:border-blue-500 focus:ring-blue-500 appearance-none cursor-pointer"
-              >
-                <option value="">選択してください</option>
-                {items
-                  .filter((item) => item.selectable)
-                  .filter(
-                    (item) =>
-                      item.accounting_type === "expense" ||
-                      item.accounting_type === "revenue"
-                  )
-                  .map((item) => (
-                    <option key={item.id} value={item.id}>
-                      {item.name}
-                    </option>
-                  ))}
-              </select>
-            </div>
+            {transactionType === "expense" ? (
+              <>
+                <div>
+                  <label
+                    className="block text-sm font-medium text-gray-700"
+                    htmlFor="creditItemId"
+                  >
+                    支出
+                  </label>
+                  <select
+                    {...form.register("creditItemId", { required: true })}
+                    className="mt-1 p-4 block w-full text-lg rounded-md bg-(--base-color) border-1 border-gray-300 inset-shadow-sm focus:border-blue-500 focus:ring-blue-500 appearance-none cursor-pointer"
+                  >
+                    <option value="">選択してください</option>
+                    {expenseOrRevenueItems.map((item) => (
+                      <option key={item.id} value={item.id}>
+                        {item.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
 
-            <div>
-              <label
-                className="block text-sm font-medium text-gray-700"
-                htmlFor="debitItemId"
-              >
-                支出元
-              </label>
-              <select
-                {...form.register("debitItemId", { required: true })}
-                className="mt-1 p-4 block w-full text-lg rounded-md bg-(--base-color) border-1 border-gray-300 inset-shadow-sm focus:border-blue-500 focus:ring-blue-500 appearance-none cursor-pointer"
-              >
-                <option value="">選択してください</option>
-                {items
-                  .filter((item) => item.selectable)
-                  .filter(
-                    (item) =>
-                      item.accounting_type === "asset" ||
-                      item.accounting_type === "liability" ||
-                      item.accounting_type === "equity"
-                  )
-                  .map((item) => (
-                    <option key={item.id} value={item.id}>
-                      {item.name}
-                    </option>
-                  ))}
-              </select>
-            </div>
+                <div>
+                  <label
+                    className="block text-sm font-medium text-gray-700"
+                    htmlFor="debitItemId"
+                  >
+                    支出元
+                  </label>
+                  <select
+                    {...form.register("debitItemId", { required: true })}
+                    className="mt-1 p-4 block w-full text-lg rounded-md bg-(--base-color) border-1 border-gray-300 inset-shadow-sm focus:border-blue-500 focus:ring-blue-500 appearance-none cursor-pointer"
+                  >
+                    <option value="">選択してください</option>
+                    {assetOrLiabilityOrEquity.map((item) => (
+                      <option key={item.id} value={item.id}>
+                        {item.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </>
+            ) : (
+              <>
+                <div>
+                  <label
+                    className="block text-sm font-medium text-gray-700"
+                    htmlFor="creditItemId"
+                  >
+                    振替先
+                  </label>
+                  <select
+                    {...form.register("creditItemId", { required: true })}
+                    className="mt-1 p-4 block w-full text-lg rounded-md bg-(--base-color) border-1 border-gray-300 inset-shadow-sm focus:border-blue-500 focus:ring-blue-500 appearance-none cursor-pointer"
+                  >
+                    <option value="">選択してください</option>
+                    {assetOrLiabilityOrEquity.map((item) => (
+                      <option key={item.id} value={item.id}>
+                        {item.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div>
+                  <label
+                    className="block text-sm font-medium text-gray-700"
+                    htmlFor="debitItemId"
+                  >
+                    振替元
+                  </label>
+                  <select
+                    {...form.register("debitItemId", { required: true })}
+                    className="mt-1 p-4 block w-full text-lg rounded-md bg-(--base-color) border-1 border-gray-300 inset-shadow-sm focus:border-blue-500 focus:ring-blue-500 appearance-none cursor-pointer"
+                  >
+                    <option value="">選択してください</option>
+                    {assetOrLiabilityOrEquity.map((item) => (
+                      <option key={item.id} value={item.id}>
+                        {item.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </>
+            )}
 
             <div className="absolute bottom-8 flex justify-end gap-2 w-full left-0 right-0">
               <button
