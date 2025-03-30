@@ -197,7 +197,7 @@ export default function TransactionModal({
                     支出
                   </label>
                   <select
-                    {...form.register("creditItemId", { required: true })}
+                    {...form.register("debitItemId", { required: true })}
                     className="mt-1 p-4 block w-full text-lg rounded-md bg-(--base-color) border-1 border-gray-300 inset-shadow-sm focus:border-blue-500 focus:ring-blue-500 appearance-none cursor-pointer"
                   >
                     <option value="">選択してください</option>
@@ -217,7 +217,7 @@ export default function TransactionModal({
                     支出元
                   </label>
                   <select
-                    {...form.register("debitItemId", { required: true })}
+                    {...form.register("creditItemId", { required: true })}
                     className="mt-1 p-4 block w-full text-lg rounded-md bg-(--base-color) border-1 border-gray-300 inset-shadow-sm focus:border-blue-500 focus:ring-blue-500 appearance-none cursor-pointer"
                   >
                     <option value="">選択してください</option>
@@ -239,7 +239,7 @@ export default function TransactionModal({
                     振替先
                   </label>
                   <select
-                    {...form.register("creditItemId", { required: true })}
+                    {...form.register("debitItemId", { required: true })}
                     className="mt-1 p-4 block w-full text-lg rounded-md bg-(--base-color) border-1 border-gray-300 inset-shadow-sm focus:border-blue-500 focus:ring-blue-500 appearance-none cursor-pointer"
                   >
                     <option value="">選択してください</option>
@@ -259,7 +259,7 @@ export default function TransactionModal({
                     振替元
                   </label>
                   <select
-                    {...form.register("debitItemId", { required: true })}
+                    {...form.register("creditItemId", { required: true })}
                     className="mt-1 p-4 block w-full text-lg rounded-md bg-(--base-color) border-1 border-gray-300 inset-shadow-sm focus:border-blue-500 focus:ring-blue-500 appearance-none cursor-pointer"
                   >
                     <option value="">選択してください</option>
