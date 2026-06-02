@@ -60,7 +60,7 @@ export default async function ReportsPage(props: Props) {
 
   const summary = await getAccountSummary(startDate, endDate);
 
-  const income = summary.filter((item) => item.type === "income");
+  const income = summary.filter((item) => item.type === "revenue");
   const expense = summary.filter((item) => item.type === "expense");
 
   const totalIncome = income.reduce((sum, item) => sum + item.total, 0);

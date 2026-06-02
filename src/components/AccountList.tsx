@@ -53,7 +53,7 @@ export function AccountList({ items }: Props) {
   const typeLabels = {
     asset: "資産",
     liability: "負債",
-    income: "収入",
+    revenue: "収入",
     expense: "支出",
   };
 
